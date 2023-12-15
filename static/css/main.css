@@ -1,0 +1,14 @@
+div.col {
+  border: 10px solid #1C6EA4;
+  background-color: #EEEEEE;
+  text-align: left;
+}
+
+xdiv.col {
+  border: 10px solid #1C6EA4;
+  background-color: #EEEEEE;
+  width: 100%;
+  text-align: left;
+  border-collapse: collapse;
+}
+
