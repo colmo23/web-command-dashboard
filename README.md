@@ -8,6 +8,14 @@ The templates/index.html file has the html and javascript.
 
 Edit both the above files to change the amount and type of commands to be executed.
 
+## Install
+
+```
+pip3 install -r requirements.txt
+```
+
+## Running
+
 After installing all dependencies, run the app by entering its folder and typing:
 
 `$ python routes.py`
