@@ -11,7 +11,7 @@ app = Flask(__name__,  static_url_path='/static')
 @app.route('/')
 @app.route('/index.html')
 def index():
-    return render_template('index.html', the_title='Hex Edit')
+    return render_template('index.html', the_title='Web commmand dashboard')
 
 def format_ajax(title, content, err = None):
     if err:

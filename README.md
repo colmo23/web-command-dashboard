@@ -9,7 +9,12 @@ The templates/index.html file has the html and javascript.
 Edit both the above files to change the amount and type of commands to be executed.
 
 ## Install
-
+First setup virtual environment as follows
+```
+python3 -m venv venv
+source venv/bin/activate
+```
+Install requirements
 ```
 pip3 install -r requirements.txt
 ```
