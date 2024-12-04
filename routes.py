@@ -64,6 +64,17 @@ def ajax_column5():
     ns, err = run_command("netstat -nap")
     return format_ajax("netstat -nap", ns, err)
 
+@app.route('/ajax/get-column6')
+def ajax_column6():
+    top, err = run_command("top -b -n1 -c -w 500")
+    return format_ajax("top - full process name", top, err)
+
+@app.route('/ajax/get-column7')
+def ajax_column7():
+    top, err = run_command(" top -b -n 1 -o RES -c -w 500")
+    return format_ajax("top - sorted by memory usage", top, err)
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

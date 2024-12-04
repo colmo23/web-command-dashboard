@@ -26,6 +26,12 @@
             $.get("ajax/get-column5", function(data, status){       //$.get(URL,callback);
                 $("#column5").html(data);
             });
+            $.get("ajax/get-column6", function(data, status){       //$.get(URL,callback);
+                $("#column6").html(data);
+            });
+            $.get("ajax/get-column7", function(data, status){       //$.get(URL,callback);
+                $("#column7").html(data);
+            });
         }
         $("document").ready(function() {
             loadAjax();
@@ -55,6 +61,10 @@
     <div class="col" id="column4">
     </div>
     <div class="col" id="column5">
+    </div>
+    <div class="col" id="column6">
+    </div>
+    <div class="col" id="column7">
     </div>
   </div>
 </div>
