@@ -3,17 +3,17 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
+    <title>{{ the_title }}</title>
     <link rel="stylesheet" href="/static/css/main.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
     <script src="https://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
 
     <script type="text/javascript">
-        function poll(column, intervalMs) {
+        function poll(colId, intervalMs) {
             function fetch() {
-                $.get("ajax/get-" + column, function(data) {
-                    $("#" + column).html(data);
+                $.get("ajax/get-column/" + colId, function(data) {
+                    $("#column" + colId).html(data);
                 });
             }
             fetch();
@@ -21,13 +21,9 @@
         }
 
         $("document").ready(function() {
-            poll("column1", 5000);   // ls -l
-            poll("column2", 10000);  // top
-            poll("column3", 10000);  // df -h
-            poll("column4", 5000);   // uptime
-            poll("column5", 30000);  // netstat (slow)
-            poll("column6", 10000);  // top full process name
-            poll("column7", 10000);  // top sorted by memory
+            {% for cmd in commands %}
+            poll({{ loop.index0 }}, {{ cmd.interval * 1000 }});
+            {% endfor %}
         });
     </script>
 
@@ -40,20 +36,9 @@
 
 <div class="container text-left">
   <div class="row">
-    <div class="col" id="column1">
-    </div>
-    <div class="col" id="column2">
-    </div>
-    <div class="col" id="column3">
-    </div>
-    <div class="col" id="column4">
-    </div>
-    <div class="col" id="column5">
-    </div>
-    <div class="col" id="column6">
-    </div>
-    <div class="col" id="column7">
-    </div>
+    {% for cmd in commands %}
+    <div class="col" id="column{{ loop.index0 }}"></div>
+    {% endfor %}
   </div>
 </div>
 

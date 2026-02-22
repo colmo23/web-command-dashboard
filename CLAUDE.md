@@ -8,7 +8,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 python3 -m venv venv
 source venv/bin/activate
 pip3 install -r requirements.txt
-python routes.py
+python routes.py commands.example.json
 ```
 
 The app runs at `http://localhost:5000` in Flask debug mode.
@@ -23,6 +23,8 @@ This is a minimal Flask app that serves as a Linux system monitoring dashboard. 
 3. `templates/index.html` polls all column endpoints every 5 seconds using jQuery `$.get()` and injects the returned HTML into `<div id="columnN">` elements
 4. Bootstrap 5 grid (`div.col`) arranges the columns horizontally
 
-**Adding or changing a command panel** requires editing both files in tandem:
-- `routes.py`: add a new `@app.route('/ajax/get-columnN')` function calling `run_command()` and `format_ajax()`
-- `templates/index.html`: add a `$.get("ajax/get-columnN", ...)` call inside `loadAjax()`, and a `<div class="col" id="columnN">` in the Bootstrap row
+**Adding or changing a command panel** requires only editing the JSON config file — no Python or HTML changes needed. Each entry has three fields:
+```json
+{"title": "display name", "command": "shell command", "interval": 10}
+```
+`interval` is in seconds. `commands.example.json` has the default set of 7 panels.

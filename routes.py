@@ -1,19 +1,20 @@
 #!/usr/bin/env python3
 
+import argparse
 import html
+import json
 import subprocess
-
 
 from flask import Flask, render_template
 app = Flask(__name__, static_url_path='/static')
 
-# two decorators, same function
+commands = []
 
 
 @app.route('/')
 @app.route('/index.html')
 def index():
-    return render_template('index.html', the_title='Web commmand dashboard')
+    return render_template('index.html', the_title='Web command dashboard', commands=commands)
 
 
 def format_ajax(title, content, err=None):
@@ -36,46 +37,21 @@ def run_command(command):
     return stdout, stderr
 
 
-@app.route('/ajax/get-column1')
-def ajax_column1():
-    dir_list, stderr = run_command("ls -l")
-    return format_ajax("directory list", dir_list, stderr)
-
-
-@app.route('/ajax/get-column2')
-def ajax_column2():
-    top, err = run_command("top -b -n 1")
-    return format_ajax("top", top, err)
-
-
-@app.route('/ajax/get-column3')
-def ajax_column3():
-    df, err = run_command("df -h")
-    return format_ajax("df -h", df, err)
-
-
-@app.route('/ajax/get-column4')
-def ajax_column4():
-    uptime, err = run_command("uptime")
-    return format_ajax("uptime", uptime, err)
-
-
-@app.route('/ajax/get-column5')
-def ajax_column5():
-    ns, err = run_command("netstat -nap")
-    return format_ajax("netstat -nap", ns, err)
-
-@app.route('/ajax/get-column6')
-def ajax_column6():
-    top, err = run_command("top -b -n1 -c -w 500")
-    return format_ajax("top - full process name", top, err)
-
-@app.route('/ajax/get-column7')
-def ajax_column7():
-    top, err = run_command(" top -b -n 1 -o RES -c -w 500")
-    return format_ajax("top - sorted by memory usage", top, err)
-
+@app.route('/ajax/get-column/<int:col_id>')
+def ajax_column(col_id):
+    if col_id < 0 or col_id >= len(commands):
+        return 'Not found', 404
+    cmd = commands[col_id]
+    output, err = run_command(cmd['command'])
+    return format_ajax(cmd['title'], output, err)
 
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Web command dashboard')
+    parser.add_argument('config', help='Path to JSON commands config file')
+    args = parser.parse_args()
+
+    with open(args.config) as f:
+        commands = json.load(f)
+
     app.run(debug=False)

@@ -1,0 +1,9 @@
+[
+  {"title": "directory list",             "command": "ls -l",                       "interval": 5},
+  {"title": "top",                        "command": "top -b -n 1",                 "interval": 10},
+  {"title": "df -h",                      "command": "df -h",                       "interval": 10},
+  {"title": "uptime",                     "command": "uptime",                      "interval": 5},
+  {"title": "netstat -nap",               "command": "netstat -nap",                "interval": 30},
+  {"title": "top - full process name",    "command": "top -b -n1 -c -w 500",        "interval": 10},
+  {"title": "top - sorted by memory",     "command": "top -b -n 1 -o RES -c -w 500", "interval": 10}
+]

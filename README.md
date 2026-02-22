@@ -9,13 +9,10 @@ The templates/index.html file has the html and javascript.
 Edit both the above files to change the amount and type of commands to be executed.
 
 ## Install
-First setup virtual environment as follows
+First setup virtual environment and install requirements as follows
 ```
 python3 -m venv venv
 source venv/bin/activate
-```
-Install requirements
-```
 pip3 install -r requirements.txt
 ```
 
@@ -23,6 +20,8 @@ pip3 install -r requirements.txt
 
 After installing all dependencies, run the app by entering its folder and typing:
 
-`$ python routes.py`
+```
+python routes.py commands.example.json
+```
 
 
