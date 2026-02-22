@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 
 import argparse
-import html
 import json
 import subprocess
 
-from flask import Flask, render_template
+from flask import Flask, jsonify, render_template
 app = Flask(__name__, static_url_path='/static')
 
 commands = []
@@ -15,14 +14,6 @@ commands = []
 @app.route('/index.html')
 def index():
     return render_template('index.html', the_title='Web command dashboard', commands=commands)
-
-
-def format_ajax(title, content, err=None):
-    if err:
-        return '<fieldset><legend style="color:red;font-weight:bold;">%s</legend><pre>%s</pre></fieldset>' % (
-            title, html.escape(err))
-    return '<fieldset><legend style="color:blue;font-weight:bold;">%s</legend><pre>%s</pre></fieldset>' % (
-        title, html.escape(content))
 
 
 def run_command(command):
@@ -43,7 +34,9 @@ def ajax_column(col_id):
         return 'Not found', 404
     cmd = commands[col_id]
     output, err = run_command(cmd['command'])
-    return format_ajax(cmd['title'], output, err)
+    if err:
+        return jsonify({'text': err, 'is_error': True})
+    return jsonify({'text': output, 'is_error': False})
 
 
 if __name__ == '__main__':
