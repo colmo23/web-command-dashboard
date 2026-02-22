@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import html
 import subprocess
 
 
@@ -18,9 +19,9 @@ def index():
 def format_ajax(title, content, err=None):
     if err:
         return '<fieldset><legend style="color:red;font-weight:bold;">%s</legend><pre>%s</pre></fieldset>' % (
-            title, err)
+            title, html.escape(err))
     return '<fieldset><legend style="color:blue;font-weight:bold;">%s</legend><pre>%s</pre></fieldset>' % (
-        title, content)
+        title, html.escape(content))
 
 
 def run_command(command):
@@ -77,4 +78,4 @@ def ajax_column7():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
