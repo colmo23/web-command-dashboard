@@ -20,7 +20,8 @@
                 });
             }
             fetch();
-            setInterval(fetch, intervalMs);
+            var intervalId = setInterval(fetch, intervalMs);
+            $("#column" + colId).closest('.terminal-window').data('interval', intervalId);
         }
 
         function layoutWindows() {
@@ -44,11 +45,17 @@
 
             var zTop = 100;
             $('.terminal-window')
-                .draggable({ handle: '.terminal-titlebar' })
+                .draggable({ handle: '.terminal-titlebar', cancel: '.terminal-close' })
                 .resizable({ handles: 'all', minWidth: 250, minHeight: 150 })
                 .on('mousedown', function() {
                     $(this).css('z-index', ++zTop);
                 });
+
+            $(document).on('click', '.terminal-close', function() {
+                var win = $(this).closest('.terminal-window');
+                clearInterval(win.data('interval'));
+                win.remove();
+            });
 
             {% for cmd in commands %}
             poll({{ loop.index0 }}, {{ cmd.interval * 1000 }});
@@ -59,7 +66,7 @@
   <body>
     {% for cmd in commands %}
     <div class="terminal-window" data-col="{{ loop.index0 % 2 }}" data-row="{{ loop.index0 // 2 }}">
-      <div class="terminal-titlebar">{{ cmd.title }}</div>
+      <div class="terminal-titlebar">{{ cmd.title }}<span class="terminal-close">✕</span></div>
       <div class="terminal-body">
         <pre id="column{{ loop.index0 }}"></pre>
       </div>
