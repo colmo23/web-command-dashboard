@@ -23,7 +23,25 @@
             setInterval(fetch, intervalMs);
         }
 
+        function layoutWindows() {
+            var cols = 2;
+            var gap = 10;
+            var winWidth = ($(window).width() - gap * (cols + 1)) / cols;
+            var winHeight = $('.terminal-window').first().outerHeight();
+            $('.terminal-window').each(function() {
+                var col = parseInt($(this).data('col'));
+                var row = parseInt($(this).data('row'));
+                $(this).css({
+                    width: winWidth,
+                    left: gap + col * (winWidth + gap),
+                    top:  gap + row * (winHeight + gap)
+                });
+            });
+        }
+
         $(function() {
+            layoutWindows();
+
             var zTop = 100;
             $('.terminal-window')
                 .draggable({ handle: '.terminal-titlebar' })
@@ -40,7 +58,7 @@
   </head>
   <body>
     {% for cmd in commands %}
-    <div class="terminal-window" style="left:{{ (loop.index0 % 2) * 510 + 10 }}px; top:{{ (loop.index0 // 2) * 310 + 10 }}px;">
+    <div class="terminal-window" data-col="{{ loop.index0 % 2 }}" data-row="{{ loop.index0 // 2 }}">
       <div class="terminal-titlebar">{{ cmd.title }}</div>
       <div class="terminal-body">
         <pre id="column{{ loop.index0 }}"></pre>
